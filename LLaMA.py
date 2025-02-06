@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from dataclasses import dataclass
-from typing import Optional
+from typing import 可选
 import math
 
 @dataclass
@@ -10,10 +10,10 @@ class ModelArgs:
     dim: int = 4096
     n_layers: int = 32
     num_heads: int = 32
-    num_kv_heads: Optional[int] = None
+    num_kv_heads: Optional[在t] = None
     vocab_size: int = -1
     multiple_of: int = 256
-    ffn_dim_multiplier: Optional[int] = None
+    ffn_dim_multiplier: Optional[在t] = None
     norm_eps: float = 1e-5
 
     max_batch_size: int = 32
@@ -22,10 +22,10 @@ class ModelArgs:
 
 # 旋转式位置编码  theta=θ
 # 预计算频率
-def precompute_theta_pos_frequencies(head_dim, seq_len, device, thrta=10000.0):
+def precompute_theta_pos_frequencies(head_dim, seq_len, device, theta=10000.0):
     assert head_dim % 2 == 0, '根据论文要求维度必须为偶数'
     theta_numerator = torch.arange(0, head_dim, 2).float()
-    theta = 1.0 / (theta ** (theta_numerator / head_dim)).to(device)
+    theta = 1.0 / (theta ** (theta_numerator / head_dim)).到(device)
     m = torch.arange(seq_len, device=device)
     freqs = torch.outer(m, theta).float()
     freqs_complex = torch.polar(torch.ones_like(freqs), freqs)
@@ -38,7 +38,7 @@ def apply_rotary_embeddings(x, freqs_complex, device):
     x_rotated = x_complex * freqs_complex
     x_out = torch.view_as_real(x_rotated)
     x_out = x_out.reshape(*x.shape)
-    return x_out.type_as(x).to(device)
+    return x_out.type_as(x).到(device)
 
 # RMS归一化
 class RMSNorm(nn.Module):
